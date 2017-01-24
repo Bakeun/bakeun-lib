@@ -6,46 +6,46 @@ use warnings;
 use utf8;
 
 #change xx.xx.xx.xx type address to deximal number
-sub addr_to_dex{ 
+sub addr_to_dec{ 
 	my $addr = shift;
 
-	my $deximal_addr = 0;
+	my $decimal_addr = 0;
 	my @addr_split = split /\./, $addr;
 	for( my $class = 0;$class < 4; $class++ ){
-		$deximal_addr += ( $addr_split[3-$class] << ( 8 * $class ) );
+		$decimal_addr += ( $addr_split[3-$class] << ( 8 * $class ) );
 	}
 
-	return $deximal_addr;
+	return $decimal_addr;
 }
-*dex = \&addr_to_dex;
+*dec = \&addr_to_dec;
 
-#change deximal number to xx.xx.xx.xx type address
-sub dex_to_addr{
-	my $deximal_addr = shift;
+#change decimal number to xx.xx.xx.xx type address
+sub dec_to_addr{
+	my $decimal_addr = shift;
 
 	my @addr_split = (
-		( $deximal_addr & 255*256*256*256 ) >> 24,
-		( $deximal_addr & 255*256*256 ) >> 16,
-		( $deximal_addr & 255*256 ) >> 8,
-		( $deximal_addr & 255 ) >> 0
+		( $decimal_addr & 255*256*256*256 ) >> 24,
+		( $decimal_addr & 255*256*256 ) >> 16,
+		( $decimal_addr & 255*256 ) >> 8,
+		( $decimal_addr & 255 ) >> 0
 	);
 	my $addr = join '.', @addr_split;
 
 	return $addr;
 }
-*addr = \&dex_to_addr;
+*addr = \&dec_to_addr;
 
 #change xx.xx.xx.xx type netmask to 1~32 number
 sub get_maskbit{
 	my $str_netmask = shift;
 
-	my $dex_netmask = addr_to_dex( $str_netmask );
+	my $dec_netmask = addr_to_dec( $str_netmask );
 	my $maskbit = 32;
 	while( $maskbit > 0 ){
-		if( $dex_netmask%2 ){
+		if( $dec_netmask%2 ){
 			last;
 		}else{
-			$dex_netmask =  $dex_netmask / 2;
+			$dec_netmask =  $dec_netmask / 2;
 			$maskbit--;
 		}
 	}
