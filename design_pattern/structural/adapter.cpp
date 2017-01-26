@@ -21,15 +21,11 @@ public:
 
 class MyAdapter:public Interface{
 private:
-    MyAdaptee* worker;
+    MyAdaptee worker;
 
 public:
-    MyAdapter(){
-        worker = new MyAdaptee;
-    }
-
     void do_something_with_adaptee(int thirty_volt){
-        worker->do_something(thirty_volt/3);
+        worker.do_something(thirty_volt/3);
     }
 };
 
@@ -39,8 +35,8 @@ int main(int argc, char** argv)
     int input_volt = 30;
     if(argc > 1){ input_volt = atoi(argv[1]); }
 
-    MyAdapter* my_adapter = new MyAdapter();
-    my_adapter->do_something_with_adaptee(input_volt);
+    MyAdapter my_adapter;
+    my_adapter.do_something_with_adaptee(input_volt);
     return 1;
 }
 
