@@ -7,13 +7,17 @@ using namespace std;
    and implementations in derived classes
 */
 
-class Algorithm
-{
+template<class ALGORITHM>
+class MyCalc{
+private:
+    ALGORITHM operation;
 public:
-    virtual int calculate(int a, int b) = 0;
+    int operate(int a, int b){
+        return operation.calculate(a, b);
+    }
 };
 
-class Addition:public Algorithm
+class Addition
 {
 public:
     int calculate(int a, int b){
@@ -24,7 +28,7 @@ public:
     }
 };
 
-class Multiply:public Algorithm
+class Multiply
 {
 public:
     int calculate(int a, int b){ 
@@ -35,7 +39,7 @@ public:
     }
 };
 
-class Power:public Algorithm
+class Power
 {
 private:
     int calc_power(int a, int b){
@@ -54,46 +58,25 @@ public:
     }
 };
 
-class MyCalc{
-private:
-    Algorithm* operation;
-public:
-    MyCalc(){
-        int condition;
-        srand(time(0));
-        condition = rand()%3;
-        select_algorithm(condition);
-    }
-    void select_algorithm(int condition){
-        if(operation != 0){ delete operation; }
-        if(condition == 0){
-            operation = new Addition();
-        }
-        else if(condition == 1){
-            operation = new Multiply();
-        }
-        else if(condition == 2){
-            operation = new Power();
-        }
-        else{
-            operation = 0;
-        }
-    }
-    int operate(int a, int b){
-        if(operation == 0){
-            cout << "Operation object is not initialized." << endl;
-            return -1;
-        }
-        return operation->calculate(a, b);
-    }
-};
 
 int main(int argc, char** argv)
 {
-    MyCalc* my_calc;
-    my_calc = new MyCalc();
-    int result = my_calc->operate(5,4);
-
+    int condition;
+    int result;
+    srand(time(0));
+    condition = rand()%3;
+    if(condition == 0){
+        MyCalc<Addition> my_calc;
+        result = my_calc.operate(5,4);
+    }
+    else if(condition == 1){
+        MyCalc<Multiply> my_calc;
+        result = my_calc.operate(5,4);
+    }
+    else if(condition == 2){
+        MyCalc<Power> my_calc;
+        result = my_calc.operate(5,4);
+    }
     cout << "operation result: " << result << endl;
     return 0;
 }
