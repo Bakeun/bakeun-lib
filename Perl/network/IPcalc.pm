@@ -5,7 +5,7 @@ use strict;
 use warnings;
 use utf8;
 
-#change xx.xx.xx.xx type address to deximal number
+#change xx.xx.xx.xx type address to decimal number
 sub addr_to_dec{ 
 	my $addr = shift;
 
